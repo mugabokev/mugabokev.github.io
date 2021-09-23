@@ -104,7 +104,11 @@ function sendMail(e,r,s,m){
      From:"kevinrukundo1@gmail.com",
      Subject:`${s.value}`,
      Body:`${m.value}`
-   }).then(message => console.log(message));
+   }).then(message => {
+     if(message == 'OK'){
+       console.log('success');
+     }
+   });
 }
 if(count > 0){
    alert("Message Sent Successfully")
