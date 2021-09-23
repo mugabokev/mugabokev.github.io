@@ -98,18 +98,13 @@ function sendMail(e,r,s,m){
   let count = 0;
    e.preventDefault();
   for (var i = 0; i < r.length; i++) {   
-    console.log(`${r[i].value}`);
    Email.send({
     SecureToken : "3bf5c3be-e187-4954-bd91-ee007daff43e",
      To:`${r[i].value}`,
      From:"kevinrukundo1@gmail.com",
      Subject:`${s.value}`,
      Body:`${m.value}`
-   }).then(function (message) {
-        if(message == 'OK'){
-          count++;
-        }
-    });
+   }).then(message => console.log(message));
 }
 if(count > 0){
    alert("Message Sent Successfully")
