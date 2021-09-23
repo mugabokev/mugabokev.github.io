@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<meta author="Rukundo Kevin">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
+	<title>Email System</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+ <nav>
+ 	<ul>
+ 		<li><a href="#">Home  </a></li>
+ 		<li><a href="#">Contact</a></li>
+        <li><a href="#">Mails </a></li>
+        <li><a href="#">New </a> </li>
+        <li style="float: right"><a href="Login/index.html">Sign out </a> </li>
+ 	</ul>
+ </nav>
+ <div></div>
+ <section>
+    <form >
+        <span class="form-container">
+        <div class="form-item">
+          <label>Subject</label>
+          <input type="text" name="Subject" id="subject" required>
+        </div>
+
+        <div class="form-item">
+          <label>Message</label>
+          <input type="text" name="message" id="message" required>
+        </div>
+        <div class="form-item">
+          <label>Recipient</label>
+          <input type="email" name="recipient" class="recipient" required>
+        </div>
+        <div class="new-recipient">
+          <span >Add Another Recipient</span>
+        </div>
+        <div class="form-item">
+          <label>Attachment</label>
+          <input type="file" name="file" >
+        </div>
+        </span>
+      <button class="btn">
+          Send Mass Mail
+      </button>
+    </form>
+   </section>
+   <script src="https://smtpjs.com/v3/smtp.js"></script>
+   <script type="text/javascript" >
+
+let createNewRecipient = document.querySelector('div.new-recipient'),
+    frm = document.querySelector('.form-container'),
+    form = document.querySelector('form'),
+    subject = document.querySelector('input#subject'),
+    message = document.querySelector('input#message');
+
+createNewRecipient.addEventListener('click',addRecipient);
+
+frm.addEventListener('click', function(e){
+  if(e.target.classList.contains('remove')){
+      frm.removeChild(e.target.parentNode);
+    }
+})
+
+form.addEventListener('submit',function(e){
+  e.preventDefault()
+    recipients = document.querySelectorAll('input.recipient');
+  sendMail(e,recipients,subject,message);
+})
+
+function addRecipient(){
+	let dv = document.createElement('div');
+    
+	let lbl = document.createElement('label');
+	let lblText = document.createTextNode('Recipient');
+	    lbl.appendChild(lblText);
+      dv.appendChild(lbl);
+
+  let input = document.createElement('input');
+       input.setAttribute('type','email');
+       input.setAttribute('name','recipient');
+       input.setAttribute('required','true');
+       input.classList.add('recipient')
+       dv.appendChild(input);
+
+  let spn = document.createElement('span');
+      spnText = document.createTextNode('Remove');
+      spn.appendChild(spnText);
+      spn.classList.add('remove')
+      dv.appendChild(spn);
+
+	dv.classList.add('form-item');
+	frm.insertBefore(dv,frm.lastElementChild);
+}
+
+function sendMail(e,r,s,m){
+  let count = 0;
+   e.preventDefault();
+  for (var i = 0; i < r.length; i++) {   
+    console.log(`${r[i].value}`);
+   Email.send({
+    SecureToken : "3bf5c3be-e187-4954-bd91-ee007daff43e",
+     To:`${r[i].value}`,
+     From:"kevinrukundo1@gmail.com",
+     Subject:`${s.value}`,
+     Body:`${m.value}`
+   }).then(function (message) {
+        if(message == 'OK'){
+          count++;
+        }
+    });
+}
+if(count > 0){
+   alert("Message Sent Successfully")
+}
+}
+  </script>
+
+</body>
+</html>
