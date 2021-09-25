@@ -106,7 +106,9 @@ function sendMail(e,r,s,m){
      Body:`${m.value}`
    }).then(message => {
      if(message == 'OK'){
-       console.log('success');
+       count++;
+	 if(count == r[i].length){
+		 console.log('success');
      }
    });
 }
